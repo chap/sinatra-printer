@@ -2,11 +2,11 @@ require "sinatra"
 
 
 get '/' do
-  puts params
-  return params
+  puts params.to_s
+  return params.to_s
 end
 
 post '/' do
-  puts params
-  return params
+  puts params.to_s
+  return params.to_s
 end
