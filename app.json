@@ -16,7 +16,9 @@
   ],
   "environments": {
     "test": {
-      "test": "bundle exec reek *"
+      "scripts": {
+        "test": "bundle exec reek *"
+      }
     }
   }
 }
