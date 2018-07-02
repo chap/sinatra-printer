@@ -17,7 +17,7 @@
   "environments": {
     "test": {
       "scripts": {
-        "test": "bundle exec reek *"
+        "test": "bundle exec reek ./smelly.rb"
       }
     }
   }
