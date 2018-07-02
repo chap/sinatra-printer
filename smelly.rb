@@ -1,7 +1,6 @@
-# Smelly class
+# not Smelly class
 class Smelly
-  # This will reek of UncommunicativeMethodName
-  def x
-    y = 10 # This will reek of UncommunicativeVariableName
+  def useful_name
+    another_good_name = 10
   end
 end
