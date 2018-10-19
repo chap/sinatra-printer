@@ -1,0 +1,22 @@
+{
+  "name": "sinatra-printer",
+  "scripts": {
+  },
+  "env": {
+    "LOGDNA_KEY": {
+      "required": true
+    },
+    "TEST_NAME": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "logdna",
+    "heroku-redis"
+  ],
+  "buildpacks": [
+
+  ]
+}
