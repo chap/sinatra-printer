@@ -1,6 +1,5 @@
 require "sinatra"
 
-
 get '/*' do
   puts params.to_s
   puts headers.to_s
