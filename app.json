@@ -1,5 +1,6 @@
 {
   "name": "sinatra-printer",
+  "stack": "heroku-18",
   "scripts": {
   },
   "env": {
