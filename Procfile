@@ -1,2 +1,2 @@
 web: bundle exec ruby app.rb -p $PORT
-release: ./buildpack-run.sh
+release: bash ./buildpack-run.sh
