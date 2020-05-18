@@ -1,21 +1,6 @@
 {
   "buildpacks": [
-    {
-      "url": "heroku/ruby"
-    }
+    { "url": "heroku/ruby" }
   ],
-  "env": {
-    "LANG": {
-      "required": true
-    },
-    "RACK_ENV": {
-      "required": true
-    },
-  },
-  "formation": {
-    "web": {
-      "quantity": 1
-    }
-  },
   "stack": "heroku-18"
 }
