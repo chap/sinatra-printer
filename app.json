@@ -1,13 +1,8 @@
 {
   "addons": [
-    "logdna",
-    "papertrail",
-    "heroku-redis"
+    "papertrail"
   ],
   "buildpacks": [
-    {
-      "url": "https://github.com/weibeld/heroku-buildpack-run"
-    },
     {
       "url": "heroku/ruby"
     }
@@ -16,21 +11,12 @@
     "LANG": {
       "required": true
     },
-    "LOGDNA_KEY": {
-      "required": true
-    },
-    "PAPERTRAIL_API_TOKEN": {
-      "required": true
+    "SLEEP": {
+      "value": 20
     },
     "RACK_ENV": {
       "required": true
     },
-    "REDIS_URL": {
-      "required": true
-    },
-    "TEST_NAME": {
-      "required": true
-    }
   },
   "formation": {
     "web": {
@@ -40,5 +26,5 @@
   "name": "sinatra-printer",
   "scripts": {
   },
-  "stack": "heroku-16"
+  "stack": "heroku-18"
 }
