@@ -1,7 +1,4 @@
 {
-  "addons": [
-    "papertrail"
-  ],
   "buildpacks": [
     {
       "url": "heroku/ruby"
@@ -11,9 +8,6 @@
     "LANG": {
       "required": true
     },
-    "SLEEP": {
-      "value": "20"
-    },
     "RACK_ENV": {
       "required": true
     },
@@ -22,9 +16,6 @@
     "web": {
       "quantity": 1
     }
-  },
-  "name": "sinatra-printer",
-  "scripts": {
   },
   "stack": "heroku-18"
 }
