@@ -12,7 +12,7 @@
       "required": true
     },
     "SLEEP": {
-      "value": 20
+      "value": "20"
     },
     "RACK_ENV": {
       "required": true
