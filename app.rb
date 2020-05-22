@@ -5,5 +5,4 @@ get '/*' do
   return 'success!'
 end
 
-
 # bump
