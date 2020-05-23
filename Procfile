@@ -1,1 +1,1 @@
-web: bundle exec ruby app.rb -p $PORT
+web: bin/start-nginx bundle exec puma -C puma.rb
