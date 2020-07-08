@@ -6,9 +6,6 @@
   ],
   "buildpacks": [
     {
-      "url": "https://github.com/weibeld/heroku-buildpack-run"
-    },
-    {
       "url": "heroku/ruby"
     }
   ],
@@ -35,7 +32,7 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "performance-l"
+      "size": "performance-m"
     }
   },
   "name": "sinatra-printer",
