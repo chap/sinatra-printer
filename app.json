@@ -36,7 +36,7 @@
         "logdna",
         "papertrail",
         "heroku-redis"
-      ],
+      ]
     }
   },
   "name": "sinatra-printer",
