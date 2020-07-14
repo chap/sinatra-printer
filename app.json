@@ -29,10 +29,14 @@
       "required": true
     }
   },
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "performance-l"
+  "environments": {
+    "review": {
+      "formation": {
+        "web": {
+          "quantity": 1,
+          "size": "performance-l"
+        }
+      }
     }
   },
   "name": "sinatra-printer",
