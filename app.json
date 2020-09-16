@@ -1,8 +1,5 @@
 {
   "addons": [
-    "logdna",
-    "papertrail",
-    "heroku-redis"
   ],
   "buildpacks": [
     {
