@@ -10,23 +10,8 @@
     }
   ],
   "env": {
-    "LANG": {
-      "required": true
-    },
-    "LOGDNA_KEY": {
-      "required": true
-    },
-    "PAPERTRAIL_API_TOKEN": {
-      "required": true
-    },
-    "RACK_ENV": {
-      "required": true
-    },
-    "REDIS_URL": {
-      "required": true
-    },
-    "TEST_NAME": {
-      "required": true
+    "BUILDPACK_RUN": {
+      "value": "env"
     }
   },
   "formation": {
