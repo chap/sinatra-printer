@@ -12,7 +12,7 @@ post '/*' do
   #sleep(40)
   puts params.to_s
   puts headers.to_s
-  puts request.body
+  puts request.POST
   return 'success!'
 end
 
