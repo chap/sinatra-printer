@@ -1,7 +1,7 @@
 require "sinatra"
 
 get '/*' do
-  sleep(40)
+  #sleep(40)
   puts params.to_s
   puts headers.to_s
   puts request.inspect
