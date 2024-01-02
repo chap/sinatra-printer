@@ -16,7 +16,4 @@ spec:
       containers:
       - name: sinatra-printer-worker
         image: ghcr.io/chap/sinatra-printer:latest
-        # command: ["bundle", "exec", "ruby", "worker.rb"]
-        # command: ["/bin/sh"]
-        # args: ["-c", "while true; do echo hello; sleep 10;done"]
         command: ["/cnb/process/worker"]
