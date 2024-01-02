@@ -15,5 +15,7 @@ jobs:
         # pack build sinatra-printer --path ./ --builder heroku/builder:22
 
         git clone https://github.com/heroku/ruby-getting-started
-        cd ruby-getting-started
-        pack build my-image --builder heroku/builder:22 --path ./ruby-getting-started
+        # cd ruby-getting-started
+        pack build my-image --builder heroku/builder:22 --path ./
+
+        # docker push ghcr.io/chap/sinatra-printer:latest
