@@ -14,10 +14,13 @@ spec:
         app: sinatra-printer
     spec:
       containers:
-      - image: ghcr.io/chap/sinatra-printer:latest
-        name: sinatra-printer
+      - name: sinatra-printer
+        image: ghcr.io/chap/sinatra-printer:latest
         env:
         - name: PORT
           value: '8080'
         ports:
         - containerPort: 8080
+      - name: sinatra-printer-worker
+        image: ghcr.io/chap/sinatra-printer:latest
+        command: ["bundle", "exec", "ruby", "worker.rb"]
