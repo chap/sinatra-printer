@@ -4,7 +4,10 @@ on:
 jobs:
   my_job:
     runs-on: ubuntu-latest
-    container: buildpacksio/pack:latest
+    # container: buildpacksio/pack:latest
     steps:    
     - name: suggest
-      run: pack builder suggest
+      # run: pack builder suggest
+      run: |
+      (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.32.1/pack-v0.32.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
+      pack builder suggest
