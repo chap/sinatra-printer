@@ -5,32 +5,21 @@ permissions:
   packages: write
 
 jobs:
-  my_job:
+  buildpack:
     runs-on: ubuntu-latest
-    # container: buildpacksio/pack:latest
     steps:
-    # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
+
     - name: build
-      # run: pack builder suggest
       run: |
+        # install buildpack CLI
         (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.32.1/pack-v0.32.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
-        pack builder suggest
         
-        # pack build sinatra-printer --path ./ --builder heroku/builder:22
-
-        # git clone https://github.com/heroku/ruby-getting-started
-        # cd ruby-getting-started
+        # build
         pack build $GITHUB_REPOSITORY --builder heroku/builder:22 --path ./
-
-
-        
-
         docker tag $GITHUB_REPOSITORY ghcr.io/$GITHUB_REPOSITORY:latest
 
-        # docker push username/my-repo
-
+        # publish
         docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-
         docker push ghcr.io/$GITHUB_REPOSITORY:latest
