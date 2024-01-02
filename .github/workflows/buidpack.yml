@@ -2,7 +2,7 @@ on:
   push:
 
 permissions:
-  packages: admin
+  packages: write
 
 jobs:
   my_job:
