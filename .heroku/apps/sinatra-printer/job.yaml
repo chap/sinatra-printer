@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+      - image: ghcr.io/chap/sinatra-printer:latest
+        name: sinatra-printer
+        command: bundle exec ruby worker.rb
