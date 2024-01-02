@@ -18,6 +18,6 @@ spec:
         image: ghcr.io/chap/sinatra-printer:latest
         env:
         - name: PORT
-          value: '8080'
+          value: 8080
         ports:
         - containerPort: 8080
