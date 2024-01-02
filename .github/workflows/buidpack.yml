@@ -1,0 +1,10 @@
+on:
+  push:
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    container: buildpacksio/pack:latest
+    steps:    
+    - name: suggest
+      run: pack builder suggest
