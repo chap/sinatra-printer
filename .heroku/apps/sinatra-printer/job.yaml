@@ -1,12 +1,12 @@
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: sinatra-printer-job
-spec:
-  template:
-    spec:
-      containers:
-      - image: ghcr.io/chap/sinatra-printer:latest
-        name: sinatra-printer-job
-        command: ["/cnb/process/worker"]
-      restartPolicy: OnFailure
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: sinatra-printer-job
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - image: ghcr.io/chap/sinatra-printer:latest
+#         name: sinatra-printer-job
+#         command: ["/cnb/process/worker"]
+#       restartPolicy: OnFailure
