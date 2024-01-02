@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinatra-printer
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: sinatra-printer
+  template:
+    metadata:
+      labels:
+        app: sinatra-printer
+    spec:
+      containers:
+      - image: ghcr.io/chap/sinatra-printer:latest
+        name: sinatra-printer
+        ports:
+        - containerPort: 80
