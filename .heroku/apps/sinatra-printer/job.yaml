@@ -9,4 +9,4 @@ spec:
       - image: ghcr.io/chap/sinatra-printer:latest
         name: sinatra-printer
         command: ["bundle", "exec", "ruby", "worker.rb"]
-      restartPolicy: Always
+      restartPolicy: OnFailure
