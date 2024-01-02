@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinatra-printer-worker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    spec:
+      containers:
+      - name: sinatra-printer-worker
+        image: ghcr.io/chap/sinatra-printer:latest
+        # command: ["bundle", "exec", "ruby", "worker.rb"]
+        # command: ["/bin/sh"]
+        # args: ["-c", "while true; do echo hello; sleep 10;done"]
+        command: ["/cnb/process/worker"]
