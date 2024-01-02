@@ -1,7 +1,9 @@
 # write immediately
 $stdout.sync = true
 
+puts "Starting..."
+
 while true
-  print Time.now
-  sleep 60
+  puts Time.now
+  sleep 10
 end
