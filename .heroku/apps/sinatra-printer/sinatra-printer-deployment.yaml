@@ -16,5 +16,8 @@ spec:
       containers:
       - image: ghcr.io/chap/sinatra-printer:latest
         name: sinatra-printer
+        env:
+        - name: PORT
+          value: 80
         ports:
         - containerPort: 80
