@@ -9,7 +9,7 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
-    - name: suggest
+    - name: build
       # run: pack builder suggest
       run: |
         (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.32.1/pack-v0.32.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
@@ -21,4 +21,4 @@ jobs:
         # cd ruby-getting-started
         pack build $GITHUB_REPOSITORY --builder heroku/builder:22 --path ./
 
-        # docker push ghcr.io/$GITHUB_REPOSITORY:latest
+        docker push ghcr.io/$GITHUB_REPOSITORY:latest
