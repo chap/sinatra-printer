@@ -18,6 +18,6 @@ spec:
         name: sinatra-printer
         env:
         - name: PORT
-          value: '80'
+          value: '8080'
         ports:
-        - containerPort: 80
+        - containerPort: 8080
