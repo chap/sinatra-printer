@@ -11,4 +11,5 @@ jobs:
       run: |
         (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.32.1/pack-v0.32.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
         pack builder suggest
+        ls
         pack build sinatra-printer --path ./ --builder heroku/builder:22
