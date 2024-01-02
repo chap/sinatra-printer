@@ -8,4 +8,4 @@ spec:
       containers:
       - image: ghcr.io/chap/sinatra-printer:latest
         name: sinatra-printer
-        command: bundle exec ruby worker.rb
+        command: ["bundle exec ruby worker.rb"]
