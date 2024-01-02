@@ -31,6 +31,6 @@ jobs:
 
         # docker push username/my-repo
 
-        docker login --username chap --password $GITHUB_TOKEN
+        docker login --username chap --password ${{ secrets.GITHUB_TOKEN }}
 
         docker push ghcr.io/$GITHUB_REPOSITORY:latest
