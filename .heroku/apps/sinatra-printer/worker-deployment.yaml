@@ -5,7 +5,13 @@ metadata:
 spec:
   replicas: 1
   revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: sinatra-printer-worker
   template:
+    metadata:
+      labels:
+        app: sinatra-printer-worker
     spec:
       containers:
       - name: sinatra-printer-worker
