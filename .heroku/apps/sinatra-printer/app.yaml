@@ -1,0 +1,3 @@
+repo: https://github.com/chap/sinatra-printer
+maintenance: false
+build: heroku-buildpack.yaml
