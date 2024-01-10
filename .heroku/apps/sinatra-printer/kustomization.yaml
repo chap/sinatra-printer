@@ -1,0 +1,7 @@
+# repo: https://github.com/chap/sinatra-printer
+# maintenance: false
+# build: heroku-buildpack.yaml
+
+resources:
+- ../../defaults/web.yaml
+namePrefix: dev-

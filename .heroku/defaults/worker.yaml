@@ -1,23 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sinatra-printer
+  name: sinatra-printer-worker
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: sinatra-printer
+      app: sinatra-printer-worker
   template:
     metadata:
       labels:
-        app: sinatra-printer
+        app: sinatra-printer-worker
     spec:
       containers:
-      - name: sinatra-printer
+      - name: sinatra-printer-worker
         image: ghcr.io/chap/sinatra-printer:latest
-        env:
-        - name: PORT
-          value: '8080'
-        ports:
-        - containerPort: 8080
+        command: ["/cnb/process/worker"]
