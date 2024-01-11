@@ -6,6 +6,9 @@
 
 resources:
 - ./apps/sinatra-printer
-- https://github.com/chap/sinatra-printer/tree/master//.heroku/apps/sinatra-printer/?timeout=120&ref=main
-
+# - https://github.com/chap/sinatra-printer/tree/master//.heroku/apps/sinatra-printer?ref=main
+# - ./defaults
+# - https://github.com/chap/sinatra-printer/tree/master/.heroku/defaults/worker.yaml
+# - https://github.com/chap/clusters//defaults/kustomize
+# - https://github.com/chap/clusters/defaults/kustomize/worker.yaml
 

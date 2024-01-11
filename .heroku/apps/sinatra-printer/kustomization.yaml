@@ -1,10 +1,68 @@
-# repo: https://github.com/chap/sinatra-printer
-# maintenance: false
-# build: heroku-buildpack.yaml
+## app/$APPNAME/kustomize.yaml
+## Define the app config
+# Produces `kubectl apply`-able YAML
+# Hides defaults in kustomize "base" YAML
+# Applies customizations
+#
 
-# https://github.com/chap/sinatra-printer/tree/master/.heroku/defaults
-
+#
+## Specify the app resources
+# Each line in a Procfile, should have a corresponding resource here
+# TODO: add `ref` url query to lock version???
+#
 resources:
-- ./web.yaml
-# - https://github.com/chap/sinatra-printer/tree/master//.heroku/defaults/?timeout=120&ref=main
-namePrefix: dev-
+- https://github.com/chap/clusters//defaults/kustomize/web
+- https://github.com/chap/clusters//defaults/kustomize/worker
+
+#
+## Add default labels
+#
+commonLabels:
+  app: sinatra-printer
+  # TODO: 
+  # heroku team UID
+  # heroku user UID
+  # heroku app UID
+
+#
+## Add default labels
+#
+images:
+- name: DEFAULT
+  newName: ghcr.io/chap/sinatra-printer
+  newTag: latest
+  # TODO: `command` not supported???
+
+# TODO: scaling API
+# replicas:
+# - name: sinatra-printer
+#   count: 5
+#   dyno size???
+
+#
+## Set `name` in resource YAML
+# TODO: custom generator to simplify this?
+# TODO: how do we detect what process are defined
+# TODO: non-web/worker processes
+# TODO: hide this config elsewhere. shouldn't be touched willy-nilly.
+#
+patches:
+- target:
+    kind: Deployment
+    labelSelector: procfile=worker
+  patch: |-
+    - op: add
+      path: /metadata/name
+      value: sinatra-printer-worker
+- target:
+    kind: Deployment
+    labelSelector: procfile=worker
+  patch: |-
+    - op: add
+      path: /metadata/name
+      value: sinatra-printer-worker
+
+#
+# Tips
+# Any K8s YAML added to this folder will be deployed alongside this app.
+#
