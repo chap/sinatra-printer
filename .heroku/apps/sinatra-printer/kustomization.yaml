@@ -1,31 +1,67 @@
 ## app/$APPNAME/kustomize.yaml
-## Define the app config
+## Define app resources
 # Produces `kubectl apply`-able YAML
 # Hides defaults in kustomize "base" YAML
 # Applies customizations
 #
 
 #
-## Specify the app resources
-# Each line in a Procfile, should have a corresponding resource here
-# TODO: add `ref` url query to lock version???
+## Specify app resources
+# Each line in a Procfile, should have a corresponding resource
 #
 resources:
-- https://github.com/chap/clusters//defaults/kustomize/web
-- https://github.com/chap/clusters//defaults/kustomize/worker
+- https://github.com/chap/clusters//defaults/kustomize/web    # TODO: add `ref` url query to lock version???
+- https://github.com/chap/clusters//defaults/kustomize/worker # TODO: add `timeout` url query???
+
+#
+# TODO: Heroku App CRD
+#
+# - https://github.com/chap/clusters//defaults/kustomize/app
+
+#
+## Edit default resources
+# 1. Copy default resource YAML into this folder 
+#    $ curl https://raw.githubusercontent.com/chap/clusters/main/defaults/kustomize/web/web.yaml > ./web.yaml
+#
+# 2. Update reference url above
+#    resources:
+#      - web.yaml
+#
+#
+## Create custom resources
+# 1. Add custom resource YAML into this folder
+#    $ echo `apiVersion: v1
+#    kind: ConfigMap
+#    metadata:
+#      name: app-config
+#    data:
+#      copyright: 2024` > ./config/app-config.yaml
+#
+# 2. Update reference url
+#    resources:
+#      - /config/app-config.yaml
+#
+#
+## Provision add-ons???
+#    resources:
+#      - https://clusters.heroku.com//gitlab # TODO: kustomize registry
+#
+
 
 #
 ## Add default labels
 #
 commonLabels:
   app: sinatra-printer
-  # TODO: 
-  # heroku team UID
-  # heroku user UID
-  # heroku app UID
+  # TODO: herokuTeamUid
+  #       herokuUserUid
+  #       herokuAppUid
 
 #
-## Add default labels
+## Specify app container image
+# Default behavior is to build repo root/ with heroku-buildpack cloud native buildpack builder
+# TODO: non default behavior
+#       non latest tag
 #
 images:
 - name: DEFAULT
@@ -38,13 +74,17 @@ images:
 # - name: sinatra-printer
 #   count: 5
 #   dyno size???
+#
+# TODO: namespace
+#
+
 
 #
 ## Set `name` in resource YAML
-# TODO: custom generator to simplify this?
+# TODO: hide this config elsewhere. shouldn't be touched willy-nilly.
+# TODO: custom generator to simplify
 # TODO: how do we detect what process are defined
 # TODO: non-web/worker processes
-# TODO: hide this config elsewhere. shouldn't be touched willy-nilly.
 #
 patches:
 - target:
