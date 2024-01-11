@@ -5,4 +5,7 @@
 
 
 resources:
-- ./sinatra-printer
+- ./apps/sinatra-printer
+- https://github.com/chap/sinatra-printer/tree/master//.heroku/apps/sinatra-printer/?timeout=120&ref=main
+
+

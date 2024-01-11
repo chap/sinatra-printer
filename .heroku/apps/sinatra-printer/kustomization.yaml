@@ -2,6 +2,9 @@
 # maintenance: false
 # build: heroku-buildpack.yaml
 
+# https://github.com/chap/sinatra-printer/tree/master/.heroku/defaults
+
 resources:
-- ../../defaults/web.yaml
+- ./web.yaml
+# - https://github.com/chap/sinatra-printer/tree/master//.heroku/defaults/?timeout=120&ref=main
 namePrefix: dev-
