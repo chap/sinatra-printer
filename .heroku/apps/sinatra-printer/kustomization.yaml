@@ -10,14 +10,25 @@
 # Each line in a Procfile, should have a corresponding resource
 #
 resources:
-- https://github.com/chap/clusters//defaults/kustomize/web    # TODO: add `ref` url query to lock version???
-- https://github.com/chap/clusters//defaults/kustomize/worker # TODO: add `timeout` url query???
+- github.com/chap/clusters//src/defaults/web #?ref=v1alpha1&timeout=30
+- github.com/chap/clusters//src/defaults/worker #?ref=v1alpha1&timeout=30
 
 #
 # TODO: Heroku App CRD
 #
-# - https://github.com/chap/clusters//defaults/kustomize/app
+# - https://github.com/chap/clusters//defaults/app
 
+
+#
+# TODO: Heroku Review Apps?
+# should be a generator???
+# - GenerateReviewApp: nameSuffix:'RA-1', ref:https://github.com/chap/sinatra?ref=feature/add-logout
+
+
+#
+## TODO: Create overlays for default resources
+# 1. ???
+#
 #
 ## Edit default resources
 # 1. Copy default resource YAML into this folder 
@@ -97,11 +108,11 @@ patches:
       value: sinatra-printer-worker
 - target:
     kind: Deployment
-    labelSelector: procfile=worker
+    labelSelector: procfile=web
   patch: |-
     - op: add
       path: /metadata/name
-      value: sinatra-printer-worker
+      value: sinatra-printer-web
 
 #
 # Tips
