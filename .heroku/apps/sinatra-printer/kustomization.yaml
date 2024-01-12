@@ -59,7 +59,8 @@ commonLabels:
 
 #
 ## Specify app container image
-# Default behavior is to build repo root/ with heroku-buildpack cloud native buildpack builder
+# Default is repo's root/ built with heroku cloud native buildpack builder
+# Default image has each Procfile line mapped to a /cnb/
 # TODO: non default behavior
 #       non latest tag
 #
