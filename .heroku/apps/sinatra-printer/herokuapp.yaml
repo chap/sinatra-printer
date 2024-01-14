@@ -1,0 +1,11 @@
+apiVersion: apps.heroku.com/v1alpha1
+kind: HerokuApp
+metadata:
+  name: sinatra-printer
+spec:
+  trigger:
+    workflow: github.com/chap/clusters/src/defaults/workflows/heroku-build.yaml
+    host: cluster-shared-services.heroku-clusters.com
+  deploy:
+  - name: default
+    cluster: sinatra-printer-09243

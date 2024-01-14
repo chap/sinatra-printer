@@ -1,120 +1,58 @@
-## app/$APPNAME/kustomize.yaml
-## Define app resources
-# Produces `kubectl apply`-able YAML
-# Hides defaults in kustomize "base" YAML
-# Applies customizations
-#
-
-#
-## Specify app resources
-# Each line in a Procfile, should have a corresponding resource
-#
-resources:
-- github.com/chap/clusters//src/defaults/web #?ref=v1alpha1&timeout=30
-- github.com/chap/clusters//src/defaults/worker #?ref=v1alpha1&timeout=30
-
-#
-# TODO: Heroku App CRD
-#
-# - https://github.com/chap/clusters//defaults/app
-
-
-#
-# TODO: Heroku Review Apps?
-# should be a generator???
-# - GenerateReviewApp: nameSuffix:'RA-1', ref:https://github.com/chap/sinatra?ref=feature/add-logout
-
-
-#
-## TODO: Create overlays for default resources
-# 1. ???
-#
-#
-## Edit default resources
-# 1. Copy default resource YAML into this folder 
-#    $ curl https://raw.githubusercontent.com/chap/clusters/main/defaults/kustomize/web/web.yaml > ./web.yaml
-#
-# 2. Update reference url above
-#    resources:
-#      - web.yaml
-#
-#
-## Create custom resources
-# 1. Add custom resource YAML into this folder
-#    $ echo `apiVersion: v1
-#    kind: ConfigMap
-#    metadata:
-#      name: app-config
-#    data:
-#      copyright: 2024` > ./config/app-config.yaml
-#
-# 2. Update reference url
-#    resources:
-#      - /config/app-config.yaml
-#
-#
-## Provision add-ons???
-#    resources:
-#      - https://clusters.heroku.com//gitlab # TODO: kustomize registry
-#
-
-
-#
-## Add default labels
-#
+# namespace: sinatra-printer
 commonLabels:
   app: sinatra-printer
-  # TODO: herokuTeamUid
-  #       herokuUserUid
-  #       herokuAppUid
+namePrefix:
+  sinatra-printer-
 
-#
-## Specify app container image
-# Default is repo's root/ built with heroku cloud native buildpack builder
-# Default image has each Procfile line mapped to a /cnb/
-# TODO: non default behavior
-#       non latest tag
-#
+resources:
+- github.com/chap/clusters//src/defaults/app #?ref=v1alpha1&timeout=30
+- github.com/chap/clusters//src/defaults/web #?ref=v1alpha1&timeout=30
+# - github.com/chap/clusters//src/defaults/web-canary #?ref=v1alpha1&timeout=30
+- github.com/chap/clusters//src/defaults/worker #?ref=v1alpha1&timeout=30
+
+patches:
+- target:
+    kind: HerokuApp
+  patch: |-
+    - op: add
+      path: /spec/deploy
+      value:
+        - - name: sandbox
+            cluster: sinatra-sandbox-09234r
+            url: https://1.2.3.4 # can we automatically generate this?
+            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//sandbox?ref=sandbox
+            continueOn:
+              fail: true
+              error: true
+          - name: sandbox-eu
+            cluster: sinatra-sandbox-eu-09234r
+            url: https://1.2.3.4 # can we automatically generate this?
+            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//sandbox?ref=sandbox
+            # TODO: avoid duplicate, simultanous builds???
+            # maybe builds only occur on target #1???
+            continueOn:
+              fail: true
+              error: true
+        - - name: qa
+            cluster: sinatra-qa-09234r
+            url: https://1.2.3.4 # can we automatically generate this?
+            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//qa?ref=main
+        - - name: staging
+            cluster: sinatra-staging-09234r
+            url: https://1.2.3.4 # can we automatically generate this?
+            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//staging?ref=main
+        - - name: production
+            cluster: sinatra-production-09234r
+            url: https://1.2.3.4 # can we automatically generate this?
+            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//production?ref=sandbox
+          - name: production-eu
+            cluster: sinatra-production-eu-09234r
+            url: https://1.2.3.4 # can we automatically generate this?
+            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//production-eu?ref=sandbox
+
+# TODO: can this move to the defaults???
+#       override `command` per process???
 images:
 - name: DEFAULT
   newName: ghcr.io/chap/sinatra-printer
   newTag: latest
-  # TODO: `command` not supported???
-
-# TODO: scaling API
-# replicas:
-# - name: sinatra-printer
-#   count: 5
-#   dyno size???
-#
-# TODO: namespace
-#
-
-
-#
-## Set `name` in resource YAML
-# TODO: hide this config elsewhere. shouldn't be touched willy-nilly.
-# TODO: custom generator to simplify
-# TODO: how do we detect what process are defined
-# TODO: non-web/worker processes
-#
-patches:
-- target:
-    kind: Deployment
-    labelSelector: procfile=worker
-  patch: |-
-    - op: add
-      path: /metadata/name
-      value: sinatra-printer-worker
-- target:
-    kind: Deployment
-    labelSelector: procfile=web
-  patch: |-
-    - op: add
-      path: /metadata/name
-      value: sinatra-printer-web
-
-#
-# Tips
-# Any K8s YAML added to this folder will be deployed alongside this app.
-#
