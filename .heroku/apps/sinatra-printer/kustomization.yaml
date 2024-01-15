@@ -1,54 +1,90 @@
-# namespace: sinatra-printer
-commonLabels:
-  app: sinatra-printer
-namePrefix:
-  sinatra-printer-
-
 resources:
-- github.com/chap/clusters//src/defaults/app #?ref=v1alpha1&timeout=30
-- github.com/chap/clusters//src/defaults/web #?ref=v1alpha1&timeout=30
-# - github.com/chap/clusters//src/defaults/web-canary #?ref=v1alpha1&timeout=30
-- github.com/chap/clusters//src/defaults/worker #?ref=v1alpha1&timeout=30
+- herokuapp.yaml
 
-patches:
-- target:
-    kind: HerokuApp
-  patch: |-
-    - op: add
-      path: /spec/deploy
-      value:
-        - - name: sandbox
-            cluster: sinatra-sandbox-09234r
-            url: https://1.2.3.4 # can we automatically generate this?
-            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//sandbox?ref=sandbox
-            continueOn:
-              fail: true
-              error: true
-          - name: sandbox-eu
-            cluster: sinatra-sandbox-eu-09234r
-            url: https://1.2.3.4 # can we automatically generate this?
-            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//sandbox?ref=sandbox
-            # TODO: avoid duplicate, simultanous builds???
-            # maybe builds only occur on target #1???
-            continueOn:
-              fail: true
-              error: true
-        - - name: qa
-            cluster: sinatra-qa-09234r
-            url: https://1.2.3.4 # can we automatically generate this?
-            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//qa?ref=main
-        - - name: staging
-            cluster: sinatra-staging-09234r
-            url: https://1.2.3.4 # can we automatically generate this?
-            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//staging?ref=main
-        - - name: production
-            cluster: sinatra-production-09234r
-            url: https://1.2.3.4 # can we automatically generate this?
-            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//production?ref=sandbox
-          - name: production-eu
-            cluster: sinatra-production-eu-09234r
-            url: https://1.2.3.4 # can we automatically generate this?
-            source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//production-eu?ref=sandbox
+generators:
+- ./plugins/procfileGenerator.yaml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ---
+
+
+
+
+
+
+
+
+
+
+
+# resources:
+# - herokuapp.yaml
+# - github.com/chap/clusters//src/defaults/web #?ref=v1alpha1&timeout=30
+# - github.com/chap/clusters//src/defaults/worker #?ref=v1alpha1&timeout=30
+
+# generators:
+# # - github.com/chap/clusters//src/defaults/app/plugins/
+# - /Users/chapambrose/Documents/clusters/src/defaults/app/plugins/
+# # - herokuapp.yaml
+
+# components:
+# - github.com/chap/clusters//src/defaults/app/components #?ref=v1alpha1&timeout=30
+
+
+
+# patches:
+# - target:
+#     kind: HerokuApp
+#   patch: |-
+#     - op: add
+#       path: /metadata/name
+#       value:
+#         - - name: sandbox
+#             cluster: sinatra-sandbox-09234r
+#             url: https://1.2.3.4 # can we automatically generate this?
+#             source: github.com/chap/sinatra-printer/.heroku/apps/sinatra-printer//sandbox?ref=sandbox
+
+# nameSuffix: web
+
+# replacements:
+#   - source:
+#       kind: HerokuApp
+#       fieldPath: metadata.name
+#     targets:
+#       - select:
+#           kind: Deployment
+#           labelSelector: procfile=worker
+#         fieldPaths:
+#           - metadata.name
+
+# vars:
+# - name: MY_SERVICE_NAME
+#   objref:
+#     kind: HerokuApp
+#     fieldPath: metadata.name
+
 
 # TODO: can this move to the defaults???
 #       override `command` per process???
