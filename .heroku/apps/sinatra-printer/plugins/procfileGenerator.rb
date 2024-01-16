@@ -1,68 +1,69 @@
 #!/usr/bin/env ruby
-
 require 'yaml'
+require 'net/http'
+require 'uri'
 
-# Load app name from herokuapp.yaml
-yaml_file_path = 'herokuapp.yaml'
-yaml_content = File.read(yaml_file_path)
-parsed_yaml = YAML.safe_load(yaml_content)
-name = parsed_yaml['metadata']['name']
+def load_and_parse_yaml(source)
+  uri = URI.parse(source)
 
-# Read contents from the Procfile
-procfile_path = '../../../Procfile'
-profile = File.read(procfile_path)
+  if uri.scheme.nil? || uri.scheme.downcase == 'file'
+    # Local file path
+    raise "File not found: #{source}" unless File.exist?(source)
 
-# Split the profile into lines
-lines = profile.split("\n")
+    yaml_content = File.read(source)
+  else
+    # Assume it's a URL
+    response = Net::HTTP.get_response(uri)
 
-# Parse each line
-lines.each do |line|
-  # Split each line into parts
-  parts = line.split(':')
+    if response.is_a?(Net::HTTPSuccess)
+      yaml_content = response.body
+    else
+      raise "Error loading YAML from #{source}. HTTP Response Code: #{response.code}"
+    end
+  end
 
-  # Extract the process type and command
-  process = parts[0].strip
-  command = parts[1..-1].join(':').strip
+  parsed_data = YAML.safe_load(yaml_content)
+  raise YamlLoadError, "Error parsing YAML from #{source}" if parsed_data.nil?
 
-  puts <<~YAML
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: #{name}-#{process}
-    spec:
-      replicas: 1
-      # revisionHistoryLimit: 3
-      # revisionHistoryLimit: 10 # TODO: Default to 10 if not specified
-      selector:
-        matchLabels:
-          app: DEFAULT
-      template:
-        metadata:
-          labels:
-            app: DEFAULT
-        spec:
-          containers:
-          - name: DEFAULT
-            image: DEFAULT
-            command: ['#{command}']
-    ---
-  YAML
+  return parsed_data
+end
 
-  # Create Service (load balancer) for web ingress
+def load_and_parse_procfile(source)
+  procfile_content = File.read(source)
+  lines = procfile_content.split("\n")
+  parsed_data = {}
+
+  # Split lines to {process: command, process: command}
+  lines.each do |line|
+    parts   = line.split(':')
+    process = parts[0].strip
+    command = parts[1..-1].join(':').strip
+    parsed_data[process] = command
+  end
+  return parsed_data
+end
+
+herokuApp = load_and_parse_yaml('herokuapp.yaml')
+name      = herokuApp['metadata']['name']
+pipeline  = herokuApp['spec']['pipeline']
+
+
+output    = []
+templates = {
+  'deployment' => load_and_parse_yaml('/Users/chapambrose/Documents/clusters/src/defaults/app/deployment.yaml'),
+  'service'    => load_and_parse_yaml('/Users/chapambrose/Documents/clusters/src/defaults/app/service.yaml'),
+  'appset'     => load_and_parse_yaml('/Users/chapambrose/Documents/clusters/src/defaults/app/argocd-appset.yaml'),
+}
+
+processes = load_and_parse_procfile('../../../Procfile')
+processes.each do |process, command|
+  deployment = templates['deployment']
+  deployment['metadata']['name'] = "#{name}-#{process}"
+  puts deployment.to_yaml
+
   if process == 'web'
-    puts <<~YAML
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: #{name}-web
-      spec:
-        type: LoadBalancer
-        ports:
-        - port: 80
-          targetPort: 8080
-        selector:
-          app: DEFAULT-web
-    ---
-    YAML
+    service = templates['service'].clone
+    service['metadata']['name'] = "#{name}-#{process}"
+    puts service.to_yaml
   end
 end

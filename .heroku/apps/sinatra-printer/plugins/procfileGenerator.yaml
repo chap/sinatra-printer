@@ -1,8 +1,7 @@
 apiVersion: herokuapps.heroku.com/v1alpha1
-kind: HerokuGenerator
+kind: ProcfileGenerator
 metadata:
   name: procfile-to-yaml
-  # TODO: move this
   annotations:
     config.kubernetes.io/function: |
       exec: 
