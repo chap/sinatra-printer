@@ -67,3 +67,9 @@ processes.each do |process, command|
     puts service.to_yaml
   end
 end
+
+pipeline.each_with_index do |deploy_group,i|
+  appset = templates['appset']
+  appset['metadata']['name'] = "#{name}-#{i+1}"
+  puts appset.to_yaml
+end
