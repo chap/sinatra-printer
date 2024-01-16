@@ -48,11 +48,13 @@ name      = herokuApp['metadata']['name']
 pipeline  = herokuApp['spec']['pipeline']
 
 
+puts "herokuApp=#{herokuApp}"
+
 output    = []
 templates = {
-  'deployment' => load_and_parse_yaml('/Users/chapambrose/Documents/clusters/src/defaults/app/deployment.yaml'),
-  'service'    => load_and_parse_yaml('/Users/chapambrose/Documents/clusters/src/defaults/app/service.yaml'),
-  'appset'     => load_and_parse_yaml('/Users/chapambrose/Documents/clusters/src/defaults/app/argocd-appset.yaml'),
+  'deployment' => load_and_parse_yaml('/Users/cambrose/Documents/clusters/src/defaults/app/deployment.yaml'),
+  'service'    => load_and_parse_yaml('/Users/cambrose/Documents/clusters/src/defaults/app/service.yaml'),
+  'appset'     => load_and_parse_yaml('/Users/cambrose/Documents/clusters/src/defaults/app/argocd-appset.yaml'),
 }
 
 processes = load_and_parse_procfile('../../../Procfile')
@@ -68,8 +70,26 @@ processes.each do |process, command|
   end
 end
 
-pipeline.each_with_index do |deploy_group,i|
+# Argo ApplicationSet
+# each set is a stage in the pipeline
+# updating the set will deploy all argo apps in the stage
+pipeline.each_with_index do |pipeline_group,i|
   appset = templates['appset']
   appset['metadata']['name'] = "#{name}-#{i+1}"
+  appset['spec']['template']['metadata']['name'] = "{{cluster}}-#{name}"
+
+  elements = []
+  pipeline_group = [pipeline_group] unless pipeline_group.is_a?(Array)
+  pipeline_group.each do |target|
+    elements << {
+      'cluster' => target['cluster'],
+      'url' => "#{target['cluster']}.herokucluster.com"
+    }
+  end
+  appset['spec']['generators'] = [
+    {'list' => {
+        'elements' => elements
+    }}
+  ]
   puts appset.to_yaml
 end
