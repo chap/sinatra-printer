@@ -28,12 +28,12 @@ def load_and_parse_yaml(source)
   return parsed_data
 end
 
+# Split lines to {process: command, process: command}
 def load_and_parse_procfile(source)
   procfile_content = File.read(source)
   lines = procfile_content.split("\n")
   parsed_data = {}
 
-  # Split lines to {process: command, process: command}
   lines.each do |line|
     parts   = line.split(':')
     process = parts[0].strip
@@ -43,12 +43,11 @@ def load_and_parse_procfile(source)
   return parsed_data
 end
 
+
+
 herokuApp = load_and_parse_yaml('herokuapp.yaml')
 name      = herokuApp['metadata']['name']
 pipeline  = herokuApp['spec']['pipeline']
-
-
-puts "herokuApp=#{herokuApp}"
 
 output    = []
 templates = {
@@ -59,13 +58,25 @@ templates = {
 
 processes = load_and_parse_procfile('../../../Procfile')
 processes.each do |process, command|
+  labels = {
+    'procfile' => process,
+    'app' => name
+  }
   deployment = templates['deployment']
   deployment['metadata']['name'] = "#{name}-#{process}"
+  deployment['metadata']['labels'] = labels
+  deployment['spec']['selector']['matchLabels'] = labels
+  deployment['spec']['template']['metadata']['labels'] = labels
+
+  # update container command to match buildpack image defaults
+  deployment['spec']['template']['spec']['containers'][0]['command'] = ["/cnb/process/#{process}"]
+
   puts deployment.to_yaml
 
   if process == 'web'
     service = templates['service'].clone
     service['metadata']['name'] = "#{name}-#{process}"
+    service['metadata']['labels'] = labels
     puts service.to_yaml
   end
 end
