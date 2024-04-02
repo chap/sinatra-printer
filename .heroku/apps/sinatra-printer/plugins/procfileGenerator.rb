@@ -3,6 +3,12 @@ require 'yaml'
 require 'net/http'
 require 'uri'
 
+#
+# Load values from HerokuApp YAML and /Procfile
+# Insert values into default k8s manifests
+#
+
+
 def load_and_parse_yaml(source)
   uri = URI.parse(source)
 
@@ -44,12 +50,10 @@ def load_and_parse_procfile(source)
 end
 
 
-
 herokuApp = load_and_parse_yaml('herokuapp.yaml')
 name      = herokuApp['metadata']['name']
 pipeline  = herokuApp['spec']['pipeline']
 
-output    = []
 templates = {
   'deployment' => load_and_parse_yaml('/Users/cambrose/Documents/clusters/src/defaults/app/deployment.yaml'),
   'service'    => load_and_parse_yaml('/Users/cambrose/Documents/clusters/src/defaults/app/service.yaml'),
