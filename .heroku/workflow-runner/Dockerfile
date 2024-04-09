@@ -14,3 +14,6 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 # https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 RUN	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN	unzip awscliv2.zip && ./aws/install
+
+# Install OpenTofu
+RUN snap install --classic opentofu
