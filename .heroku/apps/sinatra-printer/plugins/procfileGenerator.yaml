@@ -1,8 +1,0 @@
-apiVersion: herokuapps.heroku.com/v1alpha1
-kind: ProcfileGenerator
-metadata:
-  name: procfile-to-yaml
-  annotations:
-    config.kubernetes.io/function: |
-      exec: 
-        path: ./plugins/procfileGenerator.rb
