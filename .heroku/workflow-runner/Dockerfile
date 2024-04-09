@@ -16,4 +16,8 @@ RUN	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN	unzip awscliv2.zip && ./aws/install
 
 # Install OpenTofu
-RUN snap install --classic opentofu
+# https://opentofu.org/docs/intro/install/deb/
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh \
+&& chmod +x install-opentofu.sh \
+&& ./install-opentofu.sh --install-method deb \
+&& rm install-opentofu.sh
