@@ -5,7 +5,7 @@ locals {
 
 terraform {
     backend "s3"{
-        bucket = "tofu-states-shared-services-18498"
+        bucket = "tofu-statesb-shared-services-18498"
         key    = "chap/sinatra-printer/.heroku/workflow-runner/tofu_state.json"
         # region = "{{.BackendS3Region}}"
         # dynamodb_table = "{{.BackendDynamoDbTable}}"
