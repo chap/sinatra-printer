@@ -6,10 +6,10 @@
   ],
   "buildpacks": [
     {
-      "url": "https://github.com/weibeld/heroku-buildpack-run"
+      "url": "heroku/ruby"
     },
     {
-      "url": "heroku/ruby"
+      "url": "https://github.com/Roostify/heroku-buildpack-pdftk"
     }
   ],
   "env": {
