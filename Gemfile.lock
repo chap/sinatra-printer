@@ -4,8 +4,8 @@ GEM
     base64 (0.2.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    nio4r (2.7.0)
-    puma (6.4.0)
+    nio4r (2.7.4)
+    puma (6.5.0)
       nio4r (~> 2.0)
     rack (2.2.8)
     rack-protection (3.2.0)
@@ -27,7 +27,7 @@ DEPENDENCIES
   sinatra
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.3.5p100
 
 BUNDLED WITH
    2.4.10
