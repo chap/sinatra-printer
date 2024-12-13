@@ -5,19 +5,11 @@ require "pp"
 class Application < Sinatra::Base
 
   get '/*' do
-    #sleep(40)
-    puts params.to_s
-    puts headers.to_s
-    puts request.body.read.to_s
-    return "<html style='font:monospace;background:#{ENV['COLOR']}'><pre>#{ JSON.pretty_generate({params:, headers:headers.to_h, requestBody:request.body})}</pre></html>"
+    return "<html style='font:monospace;background:#{ENV['COLOR']}'><pre>#{ JSON.pretty_generate({params:, headers:request.env.to_h, requestBody:request.body.read.to_s})}</pre></html>"
   end
 
   post '/*' do
-    #sleep(40)
-    puts params.to_s
-    puts headers.to_s
-    puts request.body.read.to_s
-    return "<html style='font:monospace;background:#{ENV['COLOR']}'><pre>#{ JSON.pretty_generate({params:, headers:headers.to_h, requestBody:request.body})}</pre></html>"
+    return "<html style='font:monospace;background:#{ENV['COLOR']}'><pre>#{ JSON.pretty_generate({params:, headers:request.env.to_h, requestBody:request.body.read.to_s})}</pre></html>"
   end
 
 end
