@@ -14,12 +14,12 @@ class ApplicationTest < Minitest::Test
     @test_color = 'blue'
   end
 
-  def test_get_request_with_default_color
+  def test_get_request_with_default_color_fail
     ENV['COLOR'] = @default_color
     get '/test?foo=bar'
     
     assert last_response.ok?
-    assert_match "background:#{@default_color}", last_response.body
+    assert_match "background:clear", last_response.body
     assert_match '"foo": "bar"', last_response.body
   end
 
