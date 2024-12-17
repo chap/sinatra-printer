@@ -1,13 +1,5 @@
 {
-  "addons": [
-    "logdna",
-    "papertrail",
-    "heroku-redis"
-  ],
   "buildpacks": [
-    {
-      "url": "https://github.com/weibeld/heroku-buildpack-run"
-    },
     {
       "url": "heroku/ruby"
     }
@@ -32,10 +24,19 @@
       "required": true
     }
   },
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "performance-l"
+  "environments": {
+    "review": {
+      "formation": {
+        "web": {
+          "quantity": 1,
+          "size": "performance-l"
+        }
+      },
+      "addons": [
+        "logdna",
+        "papertrail",
+        "heroku-redis"
+      ]
     }
   },
   "name": "sinatra-printer",
