@@ -1,4 +1,4 @@
-ENV['COLOR'] ||= 'white'
+ENV['COLOR'] ||= 'blue'
 require "sinatra"
 require "pp"
 
